@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+	</head>
+	
+	<body>
+		<div id="entries" style="width:500px; heigh:300px">					
+			<div th:each="entry, it : ${entries}" th:with="index = ${it.count}">			
+				<div class="panel panel-default" th:fragment="entry" th:id="entry+${entry.id}">
+				
+					<div class="panel-heading" >
+						<form th:method="delete" th:action="@{/person/} + ${entry.id}" th:attr="data-entry-id=${entry.id}">
+							<button class="btn btn-default pull-right" >
+								<span class="glyphicon glyphicon-remove"></span>
+							</button>
+						</form>
+						<h3 th:text="${index} + '. ' + ${entry.name} + ' ' + ${entry.lastname}">1. Posting</h3>
+					</div>
+					
+					<div class="panel-body">
+						<blockquote class="entrytext" th:text="${entry.text}"></blockquote>
+						<footer class="date" th:text="${#dates.format(entry.date, 'dd. MMMM yyyy - HH:mm')}">Datum</footer>
+					</div>
+					
+				</div>	
+			</div>	
+		</div>
+
+	
+		<form style="width:200px" method="post" role="form" class="gb-form" id="form" th:action="@{/person}">
+			  <div class="form-group">
+					<label for="name">Name</label><br /> 
+					<input name="name" id="name" class="form-control" type="text" /><br /> 
+			  </div>
+			  <div class="form-group">
+					<label for="lastname">lastName</label><br /> 
+					<input name="lastname" id="lastname" class="form-control" type="text" /><br /> 
+			  </div>
+			  <div class="form-group">
+					<label for="text">Text</label><br /> 
+					<textarea name="text" id="text" class="form-control"></textarea><br /> 
+			  </div>
+			  <input type="submit" class="btn btn-default" value="Senden" />
+		</form>
+		
+	</body>
+</html>
